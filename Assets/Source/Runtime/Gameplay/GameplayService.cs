@@ -45,6 +45,9 @@ namespace Source.Runtime.Gameplay
         [SerializeField]
         private Slider _progression = null;
 
+        [SerializeField]
+        private TMP_Text _tapToContinueText = null;
+
         private void Awake()
         {
             _playerTimer = 0f;
@@ -54,6 +57,7 @@ namespace Source.Runtime.Gameplay
             _quitButton.onClick.AddListener(OnQuitGame);
 
             _checkpointSystem.GoalReached += OnGoalReached;
+            _playerController.PlayerMoved += OnPlayerMoved;
         }
 
         private void Update()
@@ -71,6 +75,9 @@ namespace Source.Runtime.Gameplay
         private void OnDestroy()
         {
             _quitButton.onClick.RemoveListener(OnQuitGame);
+            _checkpointSystem.GoalReached -= OnGoalReached;
+            _playerController.PlayerMoved -= OnPlayerMoved;
+            _failTrigger.PlayerFailed -= OnPlayerFailed;
         }
 
         private void MovePlayer(Vector3 position)
@@ -118,6 +125,13 @@ namespace Source.Runtime.Gameplay
 
             _messageBox.Show(GoalReachedTitle, message, RetryText, ReturnToMenu, OnRetryGame, OnMainMenu);
             _playerController.AllowInput = false;
+        }
+
+        private void OnPlayerMoved()
+        {
+            if (_tapToContinueText.gameObject.activeInHierarchy) {
+                _tapToContinueText.gameObject.SetActive(false);
+            }
         }
     }
 }

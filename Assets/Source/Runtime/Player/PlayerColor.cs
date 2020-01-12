@@ -5,7 +5,7 @@ namespace Source.Runtime.Player
     public class PlayerColor : MonoBehaviour
     {
         public const string PlayerColorPref = "PlayerColor";
-        private const string DefaultPlayerColor = "FF0000FF";
+        private const string DefaultPlayerColor = "0EE922FF";
 
         private MaterialPropertyBlock _propertyBlock;
 

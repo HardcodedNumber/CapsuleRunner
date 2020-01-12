@@ -4,6 +4,9 @@ namespace Source.Runtime.Player
 {
     public class PlayerController : MonoBehaviour
     {
+        public delegate void PlayerMoveHandler();
+        public event PlayerMoveHandler PlayerMoved;
+
         private const int MouseButton = 0;
 
         private Transform _transform;
@@ -32,6 +35,10 @@ namespace Source.Runtime.Player
 #else
             _move = Input.GetMouseButton(MouseButton) && AllowInput;
 #endif
+
+            if (_move) {
+                PlayerMoved.Invoke();
+            }
         }
 
         private void FixedUpdate()
